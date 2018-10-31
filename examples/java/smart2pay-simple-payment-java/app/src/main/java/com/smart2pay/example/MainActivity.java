@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
         Payment payment = new Payment();
         payment.setAmount(10);
         payment.setCurrency("CNY");
-        payment.setType(Payment.PaymentProvider.ALIPAY);
+        payment.setType(paymentProvider);
         payment.setActivity(this);
 
         PaymentManager paymentManager = new PaymentManager();
