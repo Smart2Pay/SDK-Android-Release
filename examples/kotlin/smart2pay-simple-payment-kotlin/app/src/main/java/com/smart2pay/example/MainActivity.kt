@@ -1,6 +1,5 @@
 package com.smart2pay.example
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -38,16 +37,8 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
         paymentManager.pay(payment)
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-    }
+    // PaymentManagerEventListener callbacks
 
-    override fun onActivityReenter(resultCode: Int, data: Intent?) {
-        super.onActivityReenter(resultCode, data)
-    }
-
-
-    // Callback
     override fun onPaymentFailure(payment: Payment) {
         Log.d(TAG, "Payment successful from ${payment.type}")
     }
