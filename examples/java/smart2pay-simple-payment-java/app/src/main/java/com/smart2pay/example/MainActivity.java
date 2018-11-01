@@ -1,19 +1,21 @@
 package com.smart2pay.example;
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.content.DialogInterface;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 
+import com.smart2pay.example.models.Order;
 import com.smart2pay.example.requests.RequestManager;
 import com.smart2pay.example.requests.requests.PaymentsRequest;
 import com.smart2pay.example.requests.requests.PaymentsVerifyRequest;
@@ -23,7 +25,6 @@ import com.smart2pay.sdk.models.Payment;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements PaymentManager.PaymentManagerEventListener {
 
@@ -51,35 +52,30 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
     }
 
     public void pay(@NotNull Payment.PaymentProvider paymentProvider) {
-        Payment payment = new Payment();
-        payment.setAmount(Integer.parseInt(((EditText)findViewById(R.id.e_amount)).getText().toString()));
-        payment.setCurrency(((EditText)findViewById(R.id.e_currency)).getText().toString());
-        payment.setType(paymentProvider);
-        payment.setActivity((Activity)this);
-        RequestManager.Companion.initialize((Context)payment.getActivity());
-        this.createOrder(payment);
+        Order order = new Order();
+        order.setAmount(Integer.parseInt(((EditText)findViewById(R.id.e_amount)).getText().toString()));
+        order.setCurrency(((EditText)findViewById(R.id.e_currency)).getText().toString());
+        order.setType(paymentProvider);
+        RequestManager.Companion.initialize(this);
+        this.placeOrder(order);
     }
 
-    private void createOrder(final Payment payment) {
-        HashMap orderParameters = new HashMap();
-        Map var3 = (Map)orderParameters;
-        String var4 = "amount";
-        String var5 = String.valueOf(payment.getAmount());
-        var3.put(var4, var5);
-        var3 = (Map)orderParameters;
-        var4 = "currency";
-        var5 = payment.getCurrency();
-        var3.put(var4, var5);
-        var3 = (Map)orderParameters;
-        var4 = "methodID";
-        var5 = String.valueOf(this.paymentManager.getMethodId(payment.getType()));
-        var3.put(var4, var5);
+    private void placeOrder(final Order order) {
+        HashMap<String, Object> orderParameters = new HashMap<>();
+        orderParameters.put("amount", String.valueOf(order.getAmount()));
+        orderParameters.put("currency", order.getCurrency());
+        orderParameters.put("methodID", String.valueOf(this.paymentManager.getMethodId(order.getType())));
         PaymentsRequest paymentsRequest = new PaymentsRequest(RequestManager.Companion.getInstance());
         paymentsRequest.setRequestBody(orderParameters);
-        paymentsRequest.setCallback((PaymentsRequest.Callback)(new PaymentsRequest.Callback() {
+        paymentsRequest.setCallback((new PaymentsRequest.Callback() {
             public void onSuccess(int paymentId, @NotNull String paymentsResponse) {
+                Payment payment = new Payment();
+                payment.setAmount(order.getAmount());
+                payment.setCurrency(order.getCurrency());
+                payment.setType(order.getType());
                 payment.setId(paymentId);
                 payment.setInstructions(paymentsResponse);
+                payment.setActivity(MainActivity.this);
                 paymentManager.pay(payment);
             }
 
@@ -89,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
         paymentsRequest.enqueue();
     }
 
-    private void verifyPayment(Payment payment, HashMap body) {
+    private void verifyPayment(Payment payment, HashMap<String, Object> body) {
         PaymentsVerifyRequest paymentsVerifyRequest = new PaymentsVerifyRequest(RequestManager.Companion.getInstance());
         //((TextView)findViewById(R.id.tv_results)).setText(body.toString());
         paymentsVerifyRequest.setRequestBody(payment.getId(), body);
