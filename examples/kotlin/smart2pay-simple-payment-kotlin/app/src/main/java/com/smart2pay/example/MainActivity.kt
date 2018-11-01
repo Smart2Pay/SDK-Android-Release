@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
+import com.smart2pay.example.models.Order
 import com.smart2pay.example.requests.RequestManager
 import com.smart2pay.example.requests.requests.PaymentsRequest
 import com.smart2pay.example.requests.requests.PaymentsVerifyRequest
@@ -31,27 +32,31 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
     }
 
     fun pay(paymentProvider: Payment.PaymentProvider) {
-        val payment = Payment()
-        payment.amount = 10
-        payment.currency = "CNY"
-        payment.type = paymentProvider
-        payment.activity = this@MainActivity
-        RequestManager.initialize(payment.activity)
-        createOrder(payment)
+        val order = Order()
+        order.amount = 10
+        order.currency = "CNY"
+        order.type = paymentProvider
+        RequestManager.initialize(this@MainActivity)
+        placeOrder(order)
     }
 
-    private fun createOrder(payment: Payment) {
+    private fun placeOrder(order: Order) {
         val orderParameters = HashMap<String, Any>()
-        orderParameters["amount"] = payment.amount.toString()
-        orderParameters["currency"] = payment.currency
-        orderParameters["methodID"] = paymentManager.getMethodId(payment.type).toString()
+        orderParameters["amount"] = order.amount.toString()
+        orderParameters["currency"] = order.currency
+        orderParameters["methodID"] = paymentManager.getMethodId(order.type).toString()
 
         val paymentsRequest = PaymentsRequest(RequestManager.instance)
         paymentsRequest.setRequestBody(orderParameters)
         paymentsRequest.callback =
                 object : PaymentsRequest.Callback {
                     override fun onSuccess(paymentId: Int, paymentsResponse: String) {
+                        val payment = Payment()
                         payment.id = paymentId
+                        payment.amount = order.amount
+                        payment.currency = order.currency
+                        payment.type = order.type
+                        payment.activity = this@MainActivity
                         payment.instructions = paymentsResponse
                         paymentManager.pay(payment)
                     }
