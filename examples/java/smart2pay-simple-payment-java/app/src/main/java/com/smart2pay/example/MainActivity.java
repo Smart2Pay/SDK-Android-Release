@@ -87,7 +87,15 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
 
     private void verifyPayment(Payment payment, HashMap<String, Object> body) {
         PaymentsVerifyRequest paymentsVerifyRequest = new PaymentsVerifyRequest(RequestManager.Companion.getInstance());
-        //((TextView)findViewById(R.id.tv_results)).setText(body.toString());
+        final HashMap<String, Object> bodyCopy = body;
+        payment.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((TextView) findViewById(R.id.tv_results)).setText(bodyCopy.toString());
+            }
+        }
+        );
+
         paymentsVerifyRequest.setRequestBody(payment.getId(), body);
         paymentsVerifyRequest.setCallback((new com.smart2pay.example.requests.requests.PaymentsVerifyRequest.Callback() {
             public void onSuccess() {
