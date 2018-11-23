@@ -2,5 +2,6 @@
     <string name="app_name">Smart2Pay Example Kotlin</string>
     <string name="alipay_button_title">Alipay</string>
     <string name="wechat_button_title">WeChat</string>
+    <string name="creditcard_button_title">Credit Card</string>
     <string name="test_text_view">Pick a payment provider! (only Alipay works for now!)</string>
 </resources>

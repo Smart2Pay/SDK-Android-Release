@@ -31,5 +31,13 @@
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintBottom_toTopOf="@+id/wechat_button"
             app:layout_constraintVertical_bias="0.32"/>
+    <Button
+            android:text="@string/creditcard_button_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/creditcard_button" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/alipay_button"
+            app:layout_constraintVertical_bias="0.158"/>
 
 </android.support.constraint.ConstraintLayout>
