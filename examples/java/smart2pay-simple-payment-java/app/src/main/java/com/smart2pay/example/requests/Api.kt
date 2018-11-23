@@ -10,4 +10,7 @@ interface Api {
 
     @POST("/api/payments/{payment_id}/verify")
     fun postPaymentsVerification(@Path("payment_id") paymentId: Int, @Body parameters: JSONObject): Call<JSONObject>
+
+    @POST("/api/authorization/apikey")
+    fun postAuthorizationApiKey(): Call<JSONObject>
 }
