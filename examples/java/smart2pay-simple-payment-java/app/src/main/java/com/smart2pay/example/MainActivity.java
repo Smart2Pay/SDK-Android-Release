@@ -12,12 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.smart2pay.example.misc.Constants;
 import com.smart2pay.example.models.Order;
 import com.smart2pay.example.requests.RequestManager;
+import com.smart2pay.example.requests.requests.AuthorizationApiKeyRequest;
 import com.smart2pay.example.requests.requests.PaymentsRequest;
 import com.smart2pay.example.requests.requests.PaymentsVerifyRequest;
 import com.smart2pay.sdk.PaymentManager;
 import com.smart2pay.sdk.models.Payment;
+import com.smart2pay.sdk.requests.requests.CardAuthenticationRequest;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,11 +30,15 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
 
     final String TAG = "SMART2PAY";
     PaymentManager paymentManager = new PaymentManager();
+    TextView resultTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        RequestManager.Companion.initialize(this);
+
+        resultTextView = findViewById(R.id.tv_results);
 
         Button alipayButton = findViewById(R.id.alipay_button);
         Button weChatButton = findViewById(R.id.wechat_button);
@@ -51,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
 
         creditCardButton.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v) {
-
+                getApiKeyForCreditCardCheck();
             }
         });
     }
@@ -95,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
         payment.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((TextView) findViewById(R.id.tv_results)).setText(bodyCopy.toString());
+                resultTextView.setText(bodyCopy.toString());
             }
         }
         );
@@ -118,7 +125,65 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
 
     // Credit Card handling
 
+    private void getApiKeyForCreditCardCheck() {
+        AuthorizationApiKeyRequest authorizationApiKeyRequest = new AuthorizationApiKeyRequest(RequestManager.Companion.getInstance());
+        authorizationApiKeyRequest.setCallback((new AuthorizationApiKeyRequest.Callback() {
+            public void onSuccess(String apiKey) {
+                // Authorization was successful!
+                Log.d("APITokenForCreditCard", apiKey);
+                getCreditCardToken(apiKey);
+            }
 
+            public void onFailure() {
+                // Authorization was a failure!
+            }
+        }));
+        authorizationApiKeyRequest.enqueue();
+    }
+
+    private void getCreditCardToken(String apiKey) {
+//        {
+//            "CardAuthentication": {
+//                "Customer": {
+//                    "FirstName": "John",
+//                    "LastName": "Doe",
+//                    "Email": "testing2@test.com",
+//                    "SocialSecurityNumber": "00003456789"
+//                },
+//                "BillingAddress": {
+//                    "Country": "BR"
+//                },
+//                "Card": {
+//                    "HolderName": "John Doe",
+//                    "Number": "4111111111111111",
+//                    "ExpirationMonth": "02",
+//                    "ExpirationYear": "2019",
+//                    "SecurityCode": "312"
+//                }
+//            }
+//        }
+
+        CardAuthenticationRequest cardAuthenticationRequest = new CardAuthenticationRequest("Basic " + apiKey, true);
+        cardAuthenticationRequest.setRequestBody(Constants.INSTANCE.dummyCreditCardData());
+        cardAuthenticationRequest.setCallback((new CardAuthenticationRequest.Callback() {
+            public void onSuccess(@NonNull final String creditCardToken) {
+                // Authorization was successful!
+                // Send it to your server and initiate a transactions via REST API: https://docs.smart2pay.com/category/direct-card-processing/one-click-payment/
+                Log.d("TokenForCreditCard", creditCardToken);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        resultTextView.setText("Credit Card Token:\n" + creditCardToken);
+                    }
+                });
+            }
+
+            public void onFailure() {
+                // Authorization was a failure!
+            }
+        }));
+        cardAuthenticationRequest.enqueue();
+    }
 
     // PaymentManagerEventListener callbacks
 
