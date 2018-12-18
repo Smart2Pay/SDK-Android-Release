@@ -20,74 +20,66 @@
 
     <Button
         android:id="@+id/wechat_button"
-        android:layout_width="wrap_content"
+        android:layout_width="105dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="@string/wechat_button_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alipay_button" />
+        app:layout_constraintTop_toBottomOf="@+id/creditcard_button" />
 
     <Button
         android:id="@+id/alipay_button"
-        android:layout_width="wrap_content"
+        android:layout_width="105dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="@string/alipay_button_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/e_currency" />
+        app:layout_constraintTop_toTopOf="@+id/e_amount" />
 
     <Button
-        android:text="@string/creditcard_button_title"
-        android:layout_width="wrap_content"
+        android:id="@+id/creditcard_button"
+        android:layout_width="105dp"
         android:layout_height="wrap_content"
-        android:id="@+id/creditcard_button" app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/creditcard_button_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/alipay_button"
-        app:layout_constraintVertical_bias="0.158"/>
+        app:layout_constraintTop_toBottomOf="@+id/alipay_button" />
 
     <EditText
         android:id="@+id/e_currency"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="54dp"
+        android:layout_height="44dp"
         android:ems="10"
-        android:hint="CNY"
         android:inputType="text"
         android:text="CNY"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="@+id/tv_currency"
-        app:layout_constraintLeft_toRightOf="@+id/tv_currency"
-        app:layout_constraintTop_toBottomOf="@+id/e_amount" />
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/tv_currency" />
 
     <EditText
         android:id="@+id/e_amount"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="51dp"
+        android:layout_height="44dp"
         android:ems="10"
-        android:hint="10"
         android:inputType="number"
         android:text="10"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="@+id/tv_amount"
-        app:layout_constraintLeft_toRightOf="@+id/tv_amount"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/tv_amount" />
 
     <TextView
         android:id="@+id/tv_amount"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
         android:text="Amount"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -97,16 +89,18 @@
         android:id="@+id/tv_currency"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
         android:text="Currency"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_amount" />
 
     <TextView
         android:id="@+id/tv_results"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="249dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -114,12 +108,128 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center_vertical|center_horizontal"
-        android:text="Waiting for payment result...."
+        android:text="@string/text_debug_info"
         android:textIsSelectable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wechat_button"
-        tools:text="Waiting for payment result...." />
+        app:layout_constraintTop_toBottomOf="@+id/e_cvv" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:text="Holder Name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_currency" />
+
+    <TextView
+        android:id="@+id/tv_cc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:text="Credit Card"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/tv_exp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:text="Expiration"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_cc" />
+
+    <TextView
+        android:id="@+id/tv_cvv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:text="CVV"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_exp" />
+
+    <EditText
+        android:id="@+id/e_cardholder_name"
+        android:layout_width="134dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:singleLine="true"
+        android:text="John Doe"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/e_cc_number"
+        android:layout_width="211dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="4111111111111111"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_cc"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/tv_cc" />
+
+    <EditText
+        android:id="@+id/e_exp_month"
+        android:layout_width="42dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="4"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_exp"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/tv_exp" />
+
+    <EditText
+        android:id="@+id/e_exp_year"
+        android:layout_width="61dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="2022"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toEndOf="@+id/e_exp_month"
+        app:layout_constraintTop_toTopOf="@+id/e_exp_month" />
+
+    <EditText
+        android:id="@+id/e_cvv"
+        android:layout_width="52dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="123"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_cvv"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/tv_cvv" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="155dp" />
 
 </android.support.constraint.ConstraintLayout>

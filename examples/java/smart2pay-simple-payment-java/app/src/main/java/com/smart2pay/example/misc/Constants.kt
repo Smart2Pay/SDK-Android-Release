@@ -21,11 +21,11 @@ object Constants {
 
         billingAddress["Country"] = "BR"
 
-        card["HolderName"] = "John Doe"
-        card["Number"] = "4111111111111111"
-        card["ExpirationMonth"] = "02"
-        card["ExpirationYear"] = "2019"
-        card["SecurityCode"] = "321"
+        //card["HolderName"] = "John Doe"
+        //card["Number"] = "4111111111111111"
+        //card["ExpirationMonth"] = "02"
+        //card["ExpirationYear"] = "2019"
+        //card["SecurityCode"] = "321"
 
         cardAuthentication["Customer"] = customer
         cardAuthentication["BillingAddress"] = billingAddress

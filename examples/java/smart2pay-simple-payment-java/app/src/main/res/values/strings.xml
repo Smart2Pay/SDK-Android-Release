@@ -4,5 +4,7 @@
     <string name="wechat_button_title">WeChat</string>
     <string name="creditcard_button_title">Credit Card</string>
     <string name="ok_button_title">OK</string>
-    <string name="test_text_view">Pick a payment provider! (only Alipay works for now!)</string>
+    <string name="test_text_view">Please select your payment method</string>
+    <string name="text_results">Waiting for server response...</string>
+    <string name="text_debug_info">Debug info:</string>
 </resources>

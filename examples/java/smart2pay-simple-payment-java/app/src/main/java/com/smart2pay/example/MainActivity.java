@@ -44,20 +44,26 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
         Button weChatButton = findViewById(R.id.wechat_button);
         Button creditCardButton = findViewById(R.id.creditcard_button);
 
+
         alipayButton.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v) {
+                ((TextView)findViewById(R.id.tv_results)).setText(getResources().getString(R.string.text_results));
                 pay(Payment.PaymentProvider.ALIPAY);
             }
         });
 
+
         weChatButton.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v) {
+                ((TextView)findViewById(R.id.tv_results)).setText(getResources().getString(R.string.text_results));
                 pay(Payment.PaymentProvider.WECHAT);
             }
         });
 
         creditCardButton.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v) {
+                Log.d(TAG, "CC Clicked");
+                ((TextView)findViewById(R.id.tv_results)).setText(getResources().getString(R.string.text_results));
                 getApiKeyForCreditCardCheck();
             }
         });
@@ -128,9 +134,15 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
     private void getApiKeyForCreditCardCheck() {
         AuthorizationApiKeyRequest authorizationApiKeyRequest = new AuthorizationApiKeyRequest(RequestManager.Companion.getInstance());
         authorizationApiKeyRequest.setCallback((new AuthorizationApiKeyRequest.Callback() {
-            public void onSuccess(String apiKey) {
+            public void onSuccess(final String apiKey) {
                 // Authorization was successful!
                 Log.d("APITokenForCreditCard", apiKey);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        resultTextView.setText("Temporary APIKey:\n" + apiKey);
+                    }
+                });
                 getCreditCardToken(apiKey);
             }
 
@@ -164,7 +176,15 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
 //        }
 
         CardAuthenticationRequest cardAuthenticationRequest = new CardAuthenticationRequest("Basic " + apiKey, true);
-        cardAuthenticationRequest.setRequestBody(Constants.INSTANCE.dummyCreditCardData());
+
+        HashMap<String,Object> card = new HashMap<String, Object>();
+        card.put("HolderName", ((EditText)findViewById(R.id.e_cardholder_name)).getText().toString());
+        card.put("Number", ((EditText)findViewById(R.id.e_cc_number)).getText().toString());
+        card.put("ExpirationMonth", ((EditText)findViewById(R.id.e_exp_month)).getText().toString());
+        card.put("ExpirationYear", ((EditText)findViewById(R.id.e_exp_year)).getText().toString());
+        card.put("SecurityCode", ((EditText)findViewById(R.id.e_cvv)).getText().toString());
+
+        cardAuthenticationRequest.setRequestBody(CCAuthenticateRequestBodyBuilder.getBody(card));
         cardAuthenticationRequest.setCallback((new CardAuthenticationRequest.Callback() {
             public void onSuccess(@NonNull final String creditCardToken) {
                 // Authorization was successful!
@@ -179,7 +199,13 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
             }
 
             public void onFailure() {
-                // Authorization was a failure!
+                Log.w(TAG,"Request failed");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        resultTextView.setText("Request failed");
+                    }
+                });
             }
         }));
         cardAuthenticationRequest.enqueue();
