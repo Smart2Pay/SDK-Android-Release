@@ -56,7 +56,7 @@
         android:layout_height="44dp"
         android:ems="10"
         android:inputType="text"
-        android:text="CNY"
+        android:text="EUR"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="@+id/tv_currency"
         app:layout_constraintStart_toStartOf="@+id/guideline"
