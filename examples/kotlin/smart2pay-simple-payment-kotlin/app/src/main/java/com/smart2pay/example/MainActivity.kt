@@ -1,6 +1,10 @@
 package com.smart2pay.example
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
@@ -44,7 +48,7 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
     fun pay(paymentProvider: Payment.PaymentProvider) {
         val order = Order()
         order.amount = 10
-        order.currency = "CNY"
+        order.currency = "EUR"
         order.type = paymentProvider
         RequestManager.initialize(this@MainActivity)
         placeOrder(order)
@@ -155,12 +159,28 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
     // PaymentManagerEventListener callbacks
 
     override fun onPaymentFailure(payment: Payment) {
-        Log.d(TAG, "Payment successful from ${payment.type}")
-
+        Log.d(TAG, "Payment failed from ${payment.type}")
+        displayPaymentResult(payment.type.toString() + " payment failed.")
     }
 
     override fun onPaymentSuccess(payment: Payment, body: HashMap<String, Any>) {
-        Log.d(TAG, "Payment failed from ${payment.type}")
+        Log.d(TAG, "Payment successful from ${payment.type}")
         verifyPayment(payment, body)
+    }
+
+    private fun displayPaymentResult(result: String) {
+        val mainHandler = Handler(Looper.getMainLooper())
+
+        val myRunnable = Runnable {
+            val builder = AlertDialog.Builder(this@MainActivity)
+            builder.setMessage(result)
+                .setPositiveButton(R.string.ok_button_title, DialogInterface.OnClickListener { dialog, id ->
+                    //OK
+                })
+
+            val ad = builder.create()
+            ad.show()
+        }
+        mainHandler.post(myRunnable)
     }
 }
