@@ -4,6 +4,8 @@ package com.smart2pay.example;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -226,16 +228,25 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
         displayPaymentResult(payment.getType() + " payment failed.");
     }
 
-    private void displayPaymentResult(String result){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(result)
-                .setPositiveButton(R.string.ok_button_title, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //OK
-                    }
-                });
+    private void displayPaymentResult(final String result){
+        Handler mainHandler = new Handler(Looper.getMainLooper());
 
-        AlertDialog ad = builder.create();
-        ad.show();
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage(result)
+                        .setPositiveButton(R.string.ok_button_title, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //OK
+                            }
+                        });
+
+                AlertDialog ad = builder.create();
+                ad.show();
+            }
+        };
+        mainHandler.post(myRunnable);
+
     }
 }
