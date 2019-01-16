@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
 
         alipayButton.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v) {
-                ((TextView)findViewById(R.id.tv_results)).setText(getResources().getString(R.string.text_results));
+                displayDebugInfoReset();
+                displayDebugInfo(getResources().getString(R.string.text_results));
                 pay(Payment.PaymentProvider.ALIPAY);
             }
         });
@@ -57,15 +58,16 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
 
         weChatButton.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v) {
-                ((TextView)findViewById(R.id.tv_results)).setText(getResources().getString(R.string.text_results));
+                displayDebugInfoReset();
+                displayDebugInfo(getResources().getString(R.string.text_results));
                 pay(Payment.PaymentProvider.WECHAT);
             }
         });
 
         creditCardButton.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d(TAG, "CC Clicked");
-                ((TextView)findViewById(R.id.tv_results)).setText(getResources().getString(R.string.text_results));
+                displayDebugInfoReset();
+                displayDebugInfo(getResources().getString(R.string.text_results));
                 getApiKeyForCreditCardCheck();
             }
         });
@@ -107,25 +109,19 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
     private void verifyPayment(Payment payment, HashMap<String, Object> body) {
         PaymentsVerifyRequest paymentsVerifyRequest = new PaymentsVerifyRequest(RequestManager.Companion.getInstance());
         final HashMap<String, Object> bodyCopy = body;
-        payment.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                resultTextView.setText(bodyCopy.toString());
-            }
-        }
-        );
+
+        displayDebugInfo(bodyCopy.toString());
 
         paymentsVerifyRequest.setRequestBody(payment.getId(), body);
         paymentsVerifyRequest.setCallback((new com.smart2pay.example.requests.requests.PaymentsVerifyRequest.Callback() {
             public void onSuccess() {
-                displayPaymentResult("Payment successfully verified.");
                 Log.d(TAG, "Payment successfully verified.");
-
+                displayDebugInfo("Payment successfully verified.");
             }
 
             public void onFailure() {
-                displayPaymentResult("Payment verification failed.");
                 Log.d(TAG, "Payment verification failed.");
+                displayDebugInfo("Payment verification failed.");
             }
         }));
         paymentsVerifyRequest.enqueue();
@@ -139,17 +135,14 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
             public void onSuccess(final String apiKey) {
                 // Authorization was successful!
                 Log.d("APITokenForCreditCard", apiKey);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        resultTextView.setText("Temporary APIKey:\n" + apiKey);
-                    }
-                });
+                displayDebugInfo("Temporary API key:" + apiKey);
                 getCreditCardToken(apiKey);
             }
 
             public void onFailure() {
                 // Authorization was a failure!
+                Log.d(TAG, "Failed to get temporary API key.");
+                displayDebugInfo("Failed to get temporary API key.");
             }
         }));
         authorizationApiKeyRequest.enqueue();
@@ -195,17 +188,17 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        resultTextView.setText("Credit Card Token:\n" + creditCardToken);
+                        displayDebugInfo("Credit Card Token:" + creditCardToken);
                     }
                 });
             }
 
             public void onFailure() {
-                Log.w(TAG,"Request failed");
+                Log.w(TAG,"Card Authentication request failed.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        resultTextView.setText("Request failed");
+                        displayDebugInfo("Card Authentication request failed.");
                     }
                 });
             }
@@ -217,18 +210,23 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
 
     @Override
     public void onPaymentSuccess(@NonNull Payment payment, @NonNull HashMap<String, Object> body) {
-        Log.d(TAG, "Payment successful from " + payment.getType());
-        Log.d(TAG, "Starting payment verification...");
-        verifyPayment(payment, body);
+        Log.d(TAG, payment.getType() + "payment successful.");
+        displayDebugInfo(payment.getType() + "payment successful.");
+        //displayPaymentResult(payment.getType() + " payment successful.");
+        if(payment.getType()==Payment.PaymentProvider.ALIPAY) {
+            Log.d(TAG, "Starting payment verification...");
+            verifyPayment(payment, body);
+        }
     }
 
     @Override
     public void onPaymentFailure(@NonNull Payment payment) {
-        Log.d(TAG, "Payment failed from " + payment.getType());
-        displayPaymentResult(payment.getType() + " payment failed.");
+        Log.d(TAG, payment.getType() + "payment failed.");
+        displayDebugInfo(payment.getType() + "payment failed.");
+        //displayPaymentResult(payment.getType() + " payment failed.");
     }
 
-    private void displayPaymentResult(final String result){
+    private void displayResultialogue(final String result){
         Handler mainHandler = new Handler(Looper.getMainLooper());
 
         Runnable myRunnable = new Runnable() {
@@ -249,4 +247,23 @@ public class MainActivity extends AppCompatActivity implements PaymentManager.Pa
         mainHandler.post(myRunnable);
 
     }
+
+    private void displayDebugInfo(final String message){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                resultTextView.setText(resultTextView.getText() + "\n" + message);
+            }
+        });
+    }
+
+    private void displayDebugInfoReset(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                resultTextView.setText(R.string.text_debug_info);
+            }
+        });
+    }
+
 }
