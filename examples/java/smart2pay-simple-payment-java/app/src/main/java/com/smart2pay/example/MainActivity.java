@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.smart2pay.example.misc.Constants;
+import com.smart2pay.example.builders.CCAuthenticateRequestBodyBuilder;
 import com.smart2pay.example.models.Order;
 import com.smart2pay.example.requests.RequestManager;
 import com.smart2pay.example.requests.requests.AuthorizationApiKeyRequest;

@@ -1,4 +1,4 @@
-package com.smart2pay.example;
+package com.smart2pay.example.builders;
 
 
 import java.util.HashMap;
