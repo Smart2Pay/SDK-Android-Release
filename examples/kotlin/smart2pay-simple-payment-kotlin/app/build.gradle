@@ -24,8 +24,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api files('libs/smart2pay.aar')
-
+    api files('libs/smart2pay-20190731-1403.aar')
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

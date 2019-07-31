@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
 
     fun pay(paymentProvider: Payment.PaymentProvider) {
         val order = Order()
-        order.amount = 10
+        order.amount = 1
         order.currency = "EUR"
         order.type = paymentProvider
         RequestManager.initialize(this@MainActivity)
