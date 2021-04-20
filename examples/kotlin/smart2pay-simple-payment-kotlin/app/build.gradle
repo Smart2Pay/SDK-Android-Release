@@ -31,5 +31,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    api files('libs\\S2P-SDK-Android20191128-1412.aar')
+    api files('libs/S2P-SDK-Android.aar')
 }

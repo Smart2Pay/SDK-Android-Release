@@ -24,7 +24,7 @@ object Constants {
         card["HolderName"] = "John Doe"
         card["Number"] = "4111111111111111"
         card["ExpirationMonth"] = "02"
-        card["ExpirationYear"] = "2019"
+        card["ExpirationYear"] = "2022"
         card["SecurityCode"] = "321"
 
         cardAuthentication["Customer"] = customer

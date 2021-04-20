@@ -15,6 +15,7 @@ import com.smart2pay.example.requests.requests.AuthorizationApiKeyRequest
 import com.smart2pay.example.requests.requests.PaymentsRequest
 import com.smart2pay.example.requests.requests.PaymentsVerifyRequest
 import com.smart2pay.sdk.PaymentManager
+import com.smart2pay.sdk.models.ApiError
 import com.smart2pay.sdk.models.Payment
 import com.smart2pay.sdk.requests.requests.CardAuthenticationRequest
 
@@ -63,22 +64,22 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
         val paymentsRequest = PaymentsRequest(RequestManager.instance)
         paymentsRequest.setRequestBody(orderParameters)
         paymentsRequest.callback =
-                object : PaymentsRequest.Callback {
-                    override fun onSuccess(paymentId: Int, paymentsResponse: String) {
-                        val payment = Payment()
-                        payment.id = paymentId
-                        payment.amount = order.amount
-                        payment.currency = order.currency
-                        payment.type = order.type
-                        payment.activity = this@MainActivity
-                        payment.instructions = paymentsResponse
-                        paymentManager.pay(payment)
-                    }
-
-                    override fun onFailure() {
-
-                    }
+            object : PaymentsRequest.Callback {
+                override fun onSuccess(paymentId: Int, paymentsResponse: String) {
+                    val payment = Payment()
+                    payment.id = paymentId
+                    payment.amount = order.amount
+                    payment.currency = order.currency
+                    payment.type = order.type
+                    payment.activity = this@MainActivity
+                    payment.instructions = paymentsResponse
+                    paymentManager.pay(payment)
                 }
+
+                override fun onFailure() {
+
+                }
+            }
         paymentsRequest.enqueue()
     }
 
@@ -86,15 +87,15 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
         val paymentsVerifyRequest = PaymentsVerifyRequest(RequestManager.instance)
         paymentsVerifyRequest.setRequestBody(payment.id, body)
         paymentsVerifyRequest.callback =
-                object : PaymentsVerifyRequest.Callback {
-                    override fun onSuccess() {
-                        // Payment verification was successful!
-                    }
-
-                    override fun onFailure() {
-                        // Payment verification was a failure!
-                    }
+            object : PaymentsVerifyRequest.Callback {
+                override fun onSuccess() {
+                    // Payment verification was successful!
                 }
+
+                override fun onFailure() {
+                    // Payment verification was a failure!
+                }
+            }
         paymentsVerifyRequest.enqueue()
     }
 
@@ -103,17 +104,17 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
     private fun getApiKeyForCreditCardCheck() {
         val authorizationApiKeyRequest = AuthorizationApiKeyRequest(RequestManager.instance)
         authorizationApiKeyRequest.callback =
-                object : AuthorizationApiKeyRequest.Callback {
-                    override fun onSuccess(apiKey: String) {
-                        // Authorization was successful!
-                        Log.d("ApiTokenForCreditCard", apiKey)
-                        getCreditCardToken(apiKey)
-                    }
-
-                    override fun onFailure() {
-                        // Authorization was a failure!
-                    }
+            object : AuthorizationApiKeyRequest.Callback {
+                override fun onSuccess(apiKey: String) {
+                    // Authorization was successful!
+                    Log.d("ApiTokenForCreditCard", apiKey)
+                    getCreditCardToken(apiKey)
                 }
+
+                override fun onFailure() {
+                    // Authorization was a failure!
+                }
+            }
         authorizationApiKeyRequest.enqueue()
     }
 
@@ -142,17 +143,21 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
         val cardAuthenticationRequest = CardAuthenticationRequest("Basic $apiKey", true)
         cardAuthenticationRequest.setRequestBody(Constants.dummyCreditCardData())
         cardAuthenticationRequest.callback =
-                object : CardAuthenticationRequest.Callback {
-                    override fun onSuccess(creditCardToken: String) {
-                        // Verification was successful!
-                        // Send it to your server and initiate a transactions via REST API: https://docs.smart2pay.com/category/direct-card-processing/one-click-payment/
-                        Log.d("TokenForCreditCard", creditCardToken)
-                    }
-
-                    override fun onFailure() {
-                        // Verification was a failure!
-                    }
+            object : CardAuthenticationRequest.Callback {
+                override fun onSuccess(creditCardToken: String) {
+                    // Verification was successful!
+                    // Send it to your server and initiate a transactions via REST API: https://docs.smart2pay.com/category/direct-card-processing/one-click-payment/
+                    Log.d("TokenForCreditCard", creditCardToken)
                 }
+
+                override fun onFailure(error: ApiError?) {
+                    // Verification was a failure!
+                    Log.d(
+                        "onFailure",
+                        "statusCode: ${error?.statusCode} - message: ${error?.message}"
+                    )
+                }
+            }
         cardAuthenticationRequest.enqueue()
     }
 
@@ -174,9 +179,11 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
         val myRunnable = Runnable {
             val builder = AlertDialog.Builder(this@MainActivity)
             builder.setMessage(result)
-                .setPositiveButton(R.string.ok_button_title, DialogInterface.OnClickListener { dialog, id ->
-                    //OK
-                })
+                .setPositiveButton(
+                    R.string.ok_button_title,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        //OK
+                    })
 
             val ad = builder.create()
             ad.show()
