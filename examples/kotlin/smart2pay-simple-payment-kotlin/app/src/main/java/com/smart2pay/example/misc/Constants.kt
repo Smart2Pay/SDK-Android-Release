@@ -7,25 +7,36 @@ object Constants {
     const val apiToken = "Basic UzJwTWVyY2hhbnRTZXJ2ZXI6UzJwTWVyY2hhbnRTZXJ2ZXJQYXNzd29yZA=="
     val isDebug = BuildConfig.DEBUG
 
-    fun dummyCreditCardData() : HashMap<String, Any> {
+    fun creditCardData(
+        firstName: String = "Michael",
+        lastName: String = "Dean",
+        email: String = "android@sdktest.com",
+        socialNumber: String = "00003456789",
+        countryCode: String = "BR",
+        cardHolderName: String = "Michael Dean",
+        cardNumber: String = "4111111111111111",
+        cardExpMonth: String = "02",
+        cardExpYear: String = "2022",
+        cardSecurityCode: String = "321"
+    ) : HashMap<String, Any> {
         val body = HashMap<String, Any>()
         val cardAuthentication = HashMap<String, Any>()
         val customer = HashMap<String, Any>()
         val billingAddress = HashMap<String, Any>()
         val card = HashMap<String, Any>()
 
-        customer["FirstName"] = "John"
-        customer["LastName"] = "Doe"
-        customer["Email"] = "android@sdktest.com"
-        customer["SocialSecurityNumber"] = "00003456789"
+        customer["FirstName"] = firstName
+        customer["LastName"] = lastName
+        customer["Email"] = email
+        customer["SocialSecurityNumber"] = socialNumber
 
-        billingAddress["Country"] = "BR"
+        billingAddress["Country"] = countryCode
 
-        card["HolderName"] = "John Doe"
-        card["Number"] = "4111111111111111"
-        card["ExpirationMonth"] = "02"
-        card["ExpirationYear"] = "2022"
-        card["SecurityCode"] = "321"
+        card["HolderName"] = cardHolderName
+        card["Number"] = cardNumber
+        card["ExpirationMonth"] = cardExpMonth
+        card["ExpirationYear"] = cardExpYear
+        card["SecurityCode"] = cardSecurityCode
 
         cardAuthentication["Customer"] = customer
         cardAuthentication["BillingAddress"] = billingAddress

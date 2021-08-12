@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        tools:context=".Auth3dActivity">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <!-- Amount Label -->
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+            <EditText
+                    android:id="@+id/input_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Amount"
+                    android:inputType="numberDecimal" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Currency Label -->
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+            <EditText
+                    android:id="@+id/input_currency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Currency"
+                    android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <!-- Card Holder Name Label -->
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <EditText
+                android:id="@+id/input_card_holder_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Card Holder Name"
+                android:inputType="text" />
+    </android.support.design.widget.TextInputLayout>
+
+    <!-- Card Number Label -->
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <EditText
+                android:id="@+id/input_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Card Number"
+                android:inputType="text" />
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <!-- Card Exp Month Label -->
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+            <EditText
+                    android:id="@+id/input_card_exp_month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="MM"
+                    android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Card Exp Year Label -->
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+            <EditText
+                    android:id="@+id/input_card_exp_year"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="YY"
+                    android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- CVV Label -->
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+            <EditText
+                    android:id="@+id/input_cvv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="CVV"
+                    android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <!-- Fill Button -->
+        <Button
+                android:id="@+id/button_environment"
+                android:text="Env: Testing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <!-- Fill Button -->
+        <Button
+                android:id="@+id/button_fill"
+                android:text="Fill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    <!-- Tokenize Button -->
+        <Button
+                android:id="@+id/button_tokenize"
+                android:text="Tokenize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <!-- Auth3d Button -->
+        <Button
+                android:id="@+id/button_auth3d"
+                android:text="Auth 3d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <!-- Pay Button -->
+        <Button
+                android:id="@+id/button_pay"
+                android:text="Pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log:"/>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        <TextView
+                android:id="@+id/text_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textIsSelectable="true"/>
+
+    </ScrollView>
+
+</LinearLayout>

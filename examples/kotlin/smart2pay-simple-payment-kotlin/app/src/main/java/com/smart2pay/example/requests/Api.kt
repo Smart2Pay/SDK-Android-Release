@@ -13,4 +13,7 @@ interface Api {
 
     @POST("/api/authorization/apikey")
     fun postAuthorizationApiKey(): Call<JSONObject>
+
+    @POST("/api/payments/3dsv2ExternalMpi")
+    fun payAfter3d(@Body parameters: JSONObject): Call<JSONObject>
 }

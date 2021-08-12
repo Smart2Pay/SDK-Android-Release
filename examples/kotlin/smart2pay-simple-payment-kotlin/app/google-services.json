@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "487573203045",
+    "project_id": "smart2pay-eff6a",
+    "storage_bucket": "smart2pay-eff6a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487573203045:android:dc118f2fbefafa8d3afe8c",
+        "android_client_info": {
+          "package_name": "com.smart2pay.example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487573203045-h599alug7k793pt9elnav1bmq9j2njfe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0j69ol6hxhIbA4iUeYflxERiFXaGKL7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "487573203045-h599alug7k793pt9elnav1bmq9j2njfe.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "487573203045-67q9pbn2db0pgcdfuvic0j5vhpvvjo8n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.smart2pay.iossdk.example"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

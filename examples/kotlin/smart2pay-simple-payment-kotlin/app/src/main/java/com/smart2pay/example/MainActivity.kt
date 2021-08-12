@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
 //        }
 
         val cardAuthenticationRequest = CardAuthenticationRequest("Basic $apiKey", true)
-        cardAuthenticationRequest.setRequestBody(Constants.dummyCreditCardData())
+        cardAuthenticationRequest.setRequestBody(Constants.creditCardData())
         cardAuthenticationRequest.callback =
             object : CardAuthenticationRequest.Callback {
                 override fun onSuccess(creditCardToken: String) {
