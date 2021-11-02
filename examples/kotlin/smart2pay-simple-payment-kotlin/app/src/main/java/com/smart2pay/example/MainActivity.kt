@@ -2,6 +2,7 @@ package com.smart2pay.example
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -42,14 +43,15 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
         }
 
         creditCardButton!!.setOnClickListener {
-            getApiKeyForCreditCardCheck()
+            startActivity(Intent(this, Auth3dActivity::class.java))
+//            getApiKeyForCreditCardCheck()
         }
     }
 
     fun pay(paymentProvider: Payment.PaymentProvider) {
         val order = Order()
         order.amount = 1
-        order.currency = "EUR"
+        order.currency = "USD"
         order.type = paymentProvider
         RequestManager.initialize(this@MainActivity)
         placeOrder(order)
@@ -77,7 +79,7 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
                 }
 
                 override fun onFailure() {
-
+                    Log.d("ttt", "")
                 }
             }
         paymentsRequest.enqueue()

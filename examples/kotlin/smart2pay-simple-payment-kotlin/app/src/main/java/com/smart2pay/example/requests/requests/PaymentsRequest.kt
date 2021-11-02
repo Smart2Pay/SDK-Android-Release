@@ -23,7 +23,7 @@ class PaymentsRequest(requestManager: RequestManager) : UnauthorizedRequest<JSON
             val jsonObject = response.body()!!
 
             try {
-                callback?.onSuccess(jsonObject["id"] as Int, jsonObject["instructions"].toString())
+                callback?.onSuccess(jsonObject["ID"] as Int, jsonObject["Instructions"].toString())
             } catch(e: JSONException) {
                 e.printStackTrace()
             }
