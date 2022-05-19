@@ -43,4 +43,13 @@
 
     </LinearLayout>
 
+    <TextView
+            android:id="@+id/version_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_horizontal"
+            tools:text="v1.0 b3" />
+
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.os.Looper
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import com.smart2pay.example.misc.Constants
 import com.smart2pay.example.models.Order
 import com.smart2pay.example.requests.RequestManager
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
         val alipayButton = this.findViewById<Button>(R.id.alipay_button)
         val wechatButton = this.findViewById<Button>(R.id.wechat_button)
         val creditCardButton = this.findViewById<Button>(R.id.creditcard_button)
+        val versionLabel = this.findViewById<TextView>(R.id.version_label)
 
         alipayButton!!.setOnClickListener {
             pay(Payment.PaymentProvider.ALIPAY)
@@ -46,12 +48,16 @@ class MainActivity : AppCompatActivity(), PaymentManager.PaymentManagerEventList
             startActivity(Intent(this, Auth3dActivity::class.java))
 //            getApiKeyForCreditCardCheck()
         }
+
+        val version = packageManager?.getPackageInfo(packageName, 0)?.versionName ?: "0.0"
+        val build = packageManager?.getPackageInfo(packageName, 0)?.versionCode ?: 0
+        versionLabel.text = "v$version b$build"
     }
 
     fun pay(paymentProvider: Payment.PaymentProvider) {
         val order = Order()
         order.amount = 1
-        order.currency = "USD"
+        order.currency = "EUR"
         order.type = paymentProvider
         RequestManager.initialize(this@MainActivity)
         placeOrder(order)
